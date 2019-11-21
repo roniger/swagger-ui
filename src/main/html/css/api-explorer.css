@@ -1465,7 +1465,7 @@ body {
   font-size: 10px;
   color: #fff;
   font-weight: 700;
-  margin-right: 10px;
+  margin-right: 17px;
   border-radius: 20px;
   padding: 3px 8px;
   line-height: 1.1em;
@@ -1473,10 +1473,10 @@ body {
 }
 #resources_nav .http_method.post {
   background: #01b48f;
+    margin-right: 10px;
 }
 #resources_nav .http_method.get {
   background: #44c7f4;
-  margin-right: 17px;
 }
 #resources_nav .http_method.put {
   background: #c5862b;
