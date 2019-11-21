@@ -17,6 +17,7 @@ SwaggerUi.Views.SidebarHeaderView = Backbone.View.extend({
       var item = this.model.operationsArray[i].operation;
       item.nickname = this.model.operationsArray[i].nickname;
       item.parentId = this.model.operation.parentId;
+      item.method = this.model.operationsArray[i].method;
       this.addSidebarItem(item, i);
     }
 
