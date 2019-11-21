@@ -64,7 +64,7 @@ gulp.task('dist', function () {
     .pipe(wrap('(function(){<%= contents %>}).call(this);'))
     .pipe(header(banner, { pkg: pkg } ))
     .pipe(gulp.dest('./dist'))
-    //.pipe(uglify())
+    .pipe(uglify())
     .on('error', log)
     .pipe(rename({extname: '.min.js'}))
     .on('error', log)
