@@ -11,7 +11,7 @@ var handlebars = require('gulp-handlebars');
 var wrap = require('gulp-wrap');
 var declare = require('gulp-declare');
 var watch = require('gulp-watch');
-var connect = require('gulp-connect');
+var webserver = require('gulp-webserver');
 var header = require('gulp-header');
 var pkg = require('./package.json');
 var order = require('gulp-order');
@@ -68,8 +68,7 @@ gulp.task('dist', function () {
     .on('error', log)
     .pipe(rename({extname: '.min.js'}))
     .on('error', log)
-    .pipe(gulp.dest('./dist'))
-    .pipe(connect.reload());
+    .pipe(gulp.dest('./dist'));
 });
 
 /**
@@ -84,8 +83,7 @@ gulp.task('less', function () {
     ])
     .pipe(less())
     .on('error', log)
-    .pipe(gulp.dest('./src/main/html/css/'))
-    .pipe(connect.reload());
+    .pipe(gulp.dest('./src/main/html/css/'));
 });
 
 
@@ -122,10 +120,11 @@ gulp.task('watch', function() {
  * Live reload web server of `dist`
  */
 gulp.task('connect', function() {
-  connect.server({
-    root: 'dist',
-    livereload: true
-  });
+  gulp.src('./dist')
+    .pipe(webserver({
+      livereload: true,
+      open: true
+    }));
 });
 
 function log(error) {

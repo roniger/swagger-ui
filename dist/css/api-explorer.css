@@ -562,6 +562,10 @@
     .swagger-section .responses-wrapper {
         padding: 0 20px
     }
+
+    .swagger-section .response_body pre code {
+      max-height: 500px;
+    }
 }
 
 .swagger-section .operation-status {
@@ -606,13 +610,13 @@
     .swagger-section .token-generator {
         padding-top: 40px;
         padding-right: 20px;
+        padding-bottom: 30px;
         box-shadow: none;
         background: #f3f3f4;
         color: #5c666f;
         max-height: none;
         min-width: 100%;
         width: 100%;
-        margin-bottom: 30px;
         border-bottom: 1px solid #e8eaeb
     }
 }
@@ -1117,7 +1121,8 @@
         height: auto;
         overflow: visible;
         background: #f8f8f9;
-        box-shadow: none
+        box-shadow: none;
+        padding-top: 30px;
     }
 
     .swagger-section .sticky-nav [data-navigator]:before {
@@ -1160,18 +1165,39 @@
     letter-spacing: .08em;
     font-size: 11px;
     font-weight: 700;
-    background: #454d53
 }
 
 @media (min-width: 992px) {
-    .swagger-section .sticky-nav [data-navigator] [data-resource]:before {
-        background: 0 0;
-        text-transform: none;
-        font-size: 16px;
-        font-weight: 400;
-        letter-spacing: 0;
-        color: #5c666f
+    .swagger-section .sticky-nav [data-navigator] {
+        background: #fff;
     }
+
+    .swagger-section .sticky-nav [data-navigator] [data-resource]:before {
+        text-transform: none;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0;
+      color: #5c666f;
+      height: 50px;
+      line-height: 30px;
+      border-top: 1px solid #ccc;
+    }
+
+    .swagger-section .sticky-nav [data-navigator] [data-resource].active:before {
+        font-weight: 700;
+        color: #000;
+        border-bottom: 1px solid transparent;
+        -webkit-box-shadow: 5px 7px 6px -8px #aaa;
+        -moz-box-shadow: 5px 7px 6px -8px #aaa;
+        box-shadow: 5px 7px 6px -8px #aaa;
+        background: #f6f6f6;
+      }
+
+      .swagger-section .sticky-nav [data-navigator] [data-resource]:last-child:before,
+      .swagger-section .sticky-nav [data-navigator] [data-resource].active:before,
+      .swagger-section .sticky-nav [data-navigator] [data-resource]:last-child.active{
+        border-bottom: 1px solid #ccc;
+      }
 }
 
 @media (min-width: 992px) {
@@ -1193,13 +1219,12 @@
 @media (min-width: 992px) {
     .swagger-section .sticky-nav [data-navigator] .item {
         color: #5c666f;
-        padding: 9px 9px 9px 40px;
-        font-size: 14px;
-        background: #f3f3f4
+        padding: 9px 9px 9px 20px;
+        font-size: 12px;
     }
 
-    .swagger-section .sticky-nav [data-navigator] .item:active, .swagger-section .sticky-nav [data-navigator] .item:hover {
-        color: #8c9299
+    .swagger-section .sticky-nav [data-navigator] .item:hover {
+        background: #f3f3f4;
     }
 }
 
@@ -1233,9 +1258,9 @@
 
 @media (min-width: 992px) {
     .swagger-section .sticky-nav [data-navigator] .item[data-selected] {
-        background: #f3f3f4;
-        font-weight: 700;
-        color: #333
+        background: #ddd;
+        color: #333;
+        padding-right: unset;
     }
 
     .swagger-section .sticky-nav [data-navigator] .item[data-selected]:active, .swagger-section .sticky-nav [data-navigator] .item[data-selected]:hover {
@@ -1274,7 +1299,7 @@
 
 @media (min-width: 992px) {
     .swagger-section .sticky-nav [data-navigator] .item + .item {
-        border-top: 1px solid #e8eaeb
+        border: none;
     }
 }
 
@@ -1429,10 +1454,35 @@ body {
     font-size: 16px
 }
 
-#api2-explorer .modal .modal-title .http_method {
+#api2-explorer .modal .modal-title .http_method,
+#resources_nav .http_method {
     text-transform: uppercase;
     font-size: 12px;
     letter-spacing: .065em
+}
+
+#resources_nav .http_method {
+  font-size: 10px;
+  color: #fff;
+  font-weight: 700;
+  margin-right: 10px;
+  border-radius: 20px;
+  padding: 3px 8px;
+  line-height: 1.1em;
+  background: #eee;
+}
+#resources_nav .http_method.post {
+  background: #01b48f;
+}
+#resources_nav .http_method.get {
+  background: #44c7f4;
+  margin-right: 17px;
+}
+#resources_nav .http_method.put {
+  background: #c5862b;
+}
+#resources_nav .http_method.del {
+  background: red;
 }
 
 #api2-explorer .modal .modal-title .http_method .text {
@@ -1470,7 +1520,11 @@ body {
         top: 0;
         height: 100%;
         background: #f8f8f9;
-        min-height: 100vh
+        min-height: 100vh;
+        border: 1px solid transparent;
+        -webkit-box-shadow: 1px 0 20px -8px #aaa;
+        -moz-box-shadow: 1px 0 20px -8px #aaa;
+        box-shadow: 1px 0 20px -8px #aaa;
     }
 }
 
@@ -1842,7 +1896,8 @@ body {
 }
 
 .swagger-section .swagger-ui-wrap .required {
-    font-weight: 700
+    font-family: monospace;
+    font-size: 13px;
 }
 
 .swagger-section .swagger-ui-wrap h1 {

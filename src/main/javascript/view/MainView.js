@@ -180,7 +180,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       },
       attributes: {
         "data-resource": 'resource_' + resource.name,
-        "label": resource.name
+        "label": resource.name + ' (' + resource.operationsArray.length + ' requests)'
       },
       router: this.router,
       swaggerOptions: this.options.swaggerOptions
