@@ -26,9 +26,9 @@ var banner = ['/**',
 /**
  * Clean ups ./dist folder
  */
-gulp.task('clean', function() {
+gulp.task('clean', function () {
   return gulp
-    .src('./dist', {read: false})
+    .src('./dist', {read: false, allowEmpty: true})
     .pipe(clean({force: true}))
     .on('error', log);
 });
@@ -51,8 +51,7 @@ function templates() {
 /**
  * Build a distribution
  */
-gulp.task('dist', ['clean'], function() {
-
+gulp.task('dist', function () {
   return es.merge(
       gulp.src([
         './src/main/javascript/**/*.js',
@@ -65,7 +64,7 @@ gulp.task('dist', ['clean'], function() {
     .pipe(wrap('(function(){<%= contents %>}).call(this);'))
     .pipe(header(banner, { pkg: pkg } ))
     .pipe(gulp.dest('./dist'))
-    .pipe(uglify())
+    //.pipe(uglify())
     .on('error', log)
     .pipe(rename({extname: '.min.js'}))
     .on('error', log)
@@ -76,8 +75,7 @@ gulp.task('dist', ['clean'], function() {
 /**
  * Processes less files into CSS files
  */
-gulp.task('less', ['clean'], function() {
-
+gulp.task('less', function () {
   return gulp
     .src([
       './src/main/less/screen.less',
@@ -94,7 +92,7 @@ gulp.task('less', ['clean'], function() {
 /**
  * Copy lib and html folders
  */
-gulp.task('copy', ['less'], function() {
+gulp.task('copy', function(done) {
 
   // copy JavaScript files inside lib folder
   gulp
@@ -107,6 +105,8 @@ gulp.task('copy', ['less'], function() {
     .src(['./src/main/html/**/*'])
     .pipe(gulp.dest('./dist'))
     .on('error', log);
+
+  done();
 });
 
 /**
@@ -133,5 +133,5 @@ function log(error) {
 }
 
 
-gulp.task('default', ['dist', 'copy']);
-gulp.task('serve', ['connect', 'watch']);
+gulp.task('default', gulp.series('clean', 'less', 'dist', 'copy'));
+gulp.task('serve', gulp.series('connect', 'watch'));
