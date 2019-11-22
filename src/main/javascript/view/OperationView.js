@@ -247,6 +247,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     };
     var signatureView = new SwaggerUi.Views.SignatureView({model: bodySample, tagName: 'div'});
     $('.model-signature', $(this.el)).append(signatureView.render().el);
+    signatureView.applyToTextArea();
   },
 
 

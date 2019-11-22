@@ -21389,8 +21389,8 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
         return i == 0 ? 'active' : ''
       },
       attributes: {
-        "data-resource": 'resource_' + resource.name,
-        "label": resource.name + ' (' + resource.operationsArray.length + ' requests)'
+        "data-resource": 'resource_' + resource.name.replace(/[\s\t>]/g, '_'),
+        "label": resource.name
       },
       router: this.router,
       swaggerOptions: this.options.swaggerOptions
@@ -21408,7 +21408,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
         return i == 0 ? 'active' : ''
       },
       attributes: {
-        "data-resource": 'resource_' + resource.name,
+        "data-resource": 'resource_' + resource.name.replace(/[\s\t>]/g, '_'),
         "label": resource.name + ' (' + resource.operationsArray.length + ' requests)'
       },
       router: this.router,
@@ -21721,6 +21721,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     };
     var signatureView = new SwaggerUi.Views.SignatureView({model: bodySample, tagName: 'div'});
     $('.model-signature', $(this.el)).append(signatureView.render().el);
+    signatureView.applyToTextArea();
   },
 
 
@@ -21959,6 +21960,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     o.request = {};
     o.request.url = this.invocationUrl;
     o.status = data.status;
+    this.savedHeaders = headers;
     return o;
   },
 
@@ -21995,6 +21997,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   // show the status codes
   showCompleteStatus: function (data, parent) {
+    console.log(data);
     $('#modal-' + parent.parentId + '_' + parent.nickname).modal();
     parent.showStatus(data);
   },
@@ -22534,8 +22537,9 @@ SwaggerUi.Views.SidebarHeaderView = Backbone.View.extend({
     /* scroll */
     function scroll(elem) {
       var i = $(".sticky-nav").outerHeight();
-      var r = $("#" + elem).offset().top - i - 10;
-      matchMedia() && (r = $("#" + elem).offset().top - 10);
+      var offset = $("#" + elem).offset() || {top: 0};
+      var r = offset.top - i - 10;
+      matchMedia() && (r = offset.top - 10);
       scrollT(r)
     }
 
@@ -22599,8 +22603,18 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
 
   render: function () {
     $(this.el).html(Handlebars.templates.signature(this.model));
+    //this.applyToTextArea();
     this.isParam = this.model.isParam;
     return this;
+  },
+
+  applyToTextArea: function () {
+    var textArea = $('textarea', $(this.el.parentNode.parentNode.parentNode));
+    if ($.trim(textArea.val()) === '') {
+      textArea.val(this.model.sampleJSON);
+      return true;
+    }
+    return false;
   },
 
   // handler for snippet to text area
@@ -22610,10 +22624,8 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
         e.preventDefault();
       }
 
-      var textArea = $('textarea', $(this.el.parentNode.parentNode.parentNode));
-      if ($.trim(textArea.val()) === '') {
-        textArea.val(this.model.sampleJSON);
-         // TODO move this code outside of the view and expose an event instead
+      if (this.applyToTextArea()) {
+        // TODO move this code outside of the view and expose an event instead
          if( this.model.jsonEditor && this.model.jsonEditor.isEnabled()){
             this.model.jsonEditor.setValue(JSON.parse(this.model.sampleJSON));
          }
