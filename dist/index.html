@@ -54,7 +54,8 @@
                 dom_id: "swagger-ui-container",
                 supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
                 onComplete: function (swaggerApi, swaggerUi) {
-                    if (typeof initOAuth == "function") {
+
+                  if (typeof initOAuth == "function") {
 
                         initOAuth({
                             clientId: "ffe7748a-3a3f-4860-a02a-42ab08e4fde2",
@@ -151,7 +152,7 @@
                     if (nav.find("[data-endpoint][data-selected]").length) {
                         var o = nav.find("[data-endpoint][data-selected]"),
                             a = $("#" + o.attr("data-endpoint")),
-                            s = a.offset().top,
+                            s = (a.offset() || {top:0}).top,
                             l = (s + a.outerHeight(), r("next")),
                             u = r("prev");
                         if (l.length) {

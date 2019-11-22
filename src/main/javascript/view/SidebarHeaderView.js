@@ -52,8 +52,9 @@ SwaggerUi.Views.SidebarHeaderView = Backbone.View.extend({
     /* scroll */
     function scroll(elem) {
       var i = $(".sticky-nav").outerHeight();
-      var r = $("#" + elem).offset().top - i - 10;
-      matchMedia() && (r = $("#" + elem).offset().top - 10);
+      var offsetTop = $("#" + elem).offset() || {top:0};
+      var r = offsetTop - i - 10;
+      matchMedia() && (r = offsetTop - 10);
       scrollT(r)
     }
 
