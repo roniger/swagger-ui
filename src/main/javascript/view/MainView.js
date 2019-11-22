@@ -179,7 +179,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
         return i == 0 ? 'active' : ''
       },
       attributes: {
-        "data-resource": 'resource_' + resource.name,
+        "data-resource": 'resource_' + resource.name.replace(/[\s\t>]/g, '_'),
         "label": resource.name
       },
       router: this.router,
@@ -198,7 +198,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
         return i == 0 ? 'active' : ''
       },
       attributes: {
-        "data-resource": 'resource_' + resource.name,
+        "data-resource": 'resource_' + resource.name.replace(/[\s\t>]/g, '_'),
         "label": resource.name + ' (' + resource.operationsArray.length + ' requests)'
       },
       router: this.router,
